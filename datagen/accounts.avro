@@ -1,0 +1,120 @@
+{
+  "namespace": "streams",
+  "name": "accounts_v1",
+  "type": "record",
+  "fields": [
+    {
+      "name": "CD_AGENCIA",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "001"
+          ]
+        }
+      }
+    },
+    {
+      "name": "CD_CONTA",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "990",
+            "540",
+            "49301",
+            "2801",
+            "2585",
+            "2577",
+            "2321",
+            "19747",
+            "19364",
+            "1619",
+            "15725",
+            "15113",
+            "1104"
+          ]
+        }
+      }
+    },
+    {
+      "name": "CD_CLIENTE",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "14897275903",
+            "39079931870",
+            "77650851000104",
+            "18131546000147",
+            "21666098051",
+            "65477328860"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TP_CONTA",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "CONTA COMUM PESSOA F",
+            "CONTA GAR PESSOA JUR",
+            "CHEQUE ESPECIAL PESS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DS_STATUS",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "LIBERADA"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DT_ABERTURA",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+        {
+      "name": "DT_ENCERRAMENTO",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "DT_ULT_ALTERACAO",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    }
+  ]
+}

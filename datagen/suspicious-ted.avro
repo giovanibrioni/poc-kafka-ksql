@@ -1,0 +1,85 @@
+{
+  "namespace": "streams",
+  "name": "suspicious_transactions_v1",
+  "type": "record",
+  "fields": [
+    {
+      "name": "txn_id",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "range": {
+            "min": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "origin_account_number",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "990",
+            "540",
+            "49301",
+            "2801",
+            "2585",
+            "2577",
+            "2321",
+            "19747",
+            "19364",
+            "1619",
+            "15725",
+            "15113",
+            "1104"
+          ]
+        }
+      }
+    },
+    {
+      "name": "recipient_document_number",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "11111111111",
+            "22222222222",
+            "33333333333",
+            "44444444444",
+            "55555555555",
+            "66666666666",
+            "77777777777",
+            "88888888888"
+          ]
+        }
+      }
+    },
+    {
+      "name": "type",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "TED",
+            "SAQUE",
+            "TED",
+            "TED"
+          ]
+        }
+      }
+    },
+    {
+      "name": "amount",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 1000.00
+          }
+        }
+      }
+    }
+  ]
+}

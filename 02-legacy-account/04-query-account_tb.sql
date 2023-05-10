@@ -1,0 +1,17 @@
+--contas criadas
+SELECT  TIMESTAMPTOSTRING( ROWTIME , 'yyyy-MM-dd HH:mm:ss') last_msg_date, 
+        document_number,
+        account_number, 
+        account_status 
+FROM BANK_ACCOUNTS_TB EMIT CHANGES;
+
+--CONTAS DE CLIENTES
+SELECT P.DOCUMENT_NUMBER,
+        NAME, 
+        ACCOUNT_NUMBER, 
+        ACCOUNT_STATUS
+FROM  PERSON_TB P
+LEFT JOIN BANK_ACCOUNTS_TB BA 
+        ON BA.DOCUMENT_NUMBER = P.DOCUMENT_NUMBER
+WHERE P.DOCUMENT_NUMBER = '14897275903'
+EMIT CHANGES;

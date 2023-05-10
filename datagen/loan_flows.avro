@@ -1,0 +1,108 @@
+{
+  "namespace": "streams",
+  "name": "accounts_v1",
+  "type": "record",
+  "fields": [
+    {
+      "name": "SITUACAO_PAGAMENTO",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "LIQUIDADO",
+            "NORMAL",
+            "ATRASADO"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DATA_VENCIMENTO",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+        {
+      "name": "DATA_REFERENCIA_CONSULTA",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "VALOR_VENCIMENTO",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 1000.00
+          }
+        }
+      }
+    },
+    {
+      "name": "VALOR_PRESENTE",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 1000.00
+          }
+        }
+      }
+    },
+    {
+      "name": "VALOR_PRESENTE_SALDO_DEVEDOR",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 1000.00
+          }
+        }
+      }
+    },
+    {
+      "name": "NUM_PARCELA",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "range": {
+            "min": 1,
+            "max": 12
+          }
+        }
+      }
+    },
+    {
+      "name": "ID_CONTRATO",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "890987",
+            "200000378",
+            "333222111",
+            "100000028"
+          ]
+        }
+      }
+    }
+  ]
+}

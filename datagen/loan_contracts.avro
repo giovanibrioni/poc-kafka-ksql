@@ -1,0 +1,150 @@
+{
+  "namespace": "streams",
+  "name": "accounts_v1",
+  "type": "record",
+  "fields": [
+    {
+      "name": "CPF_CNPJ_CLIENTE",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+        "options": [
+            "14897275903",
+            "39079931870",
+            "77650851000104",
+            "18131546000147",
+            "21666098051",
+            "65477328860"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SITUACAO_CONTRATO",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "AN",
+            "NO",
+            "AT"
+          ]
+        }
+      }
+    },
+    {
+      "name": "PRODUTO_VENDA",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "GIROPREMUL",
+            "MUL",
+            "RENEGOCIA"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DATA_INICIO_ORIGINAL",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+        {
+      "name": "DATA_VENCIMENTO",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+        {
+      "name": "DATA_REFERENCIA_CONSULTA",
+      "type": {
+        "type": "long",
+        "format_as_time": "unix_long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "VALOR",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 1000.00
+          }
+        }
+      }
+    },
+    {
+      "name": "TAXA_JUROS_MORA",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 2.00
+          }
+        }
+      }
+    },
+    {
+      "name": "MULTA_ATRASO",
+      "type": {
+        "type": "double",
+        "arg.properties": {
+          "range": {
+            "min": 1.00,
+            "max": 3.00
+          }
+        }
+      }
+    },
+    {
+      "name": "NUMERO_TOTAL_PARCELAS",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "range": {
+            "min": 10,
+            "max": 12
+          }
+        }
+      }
+    },
+    {
+      "name": "ID_CONTRATO",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "890987",
+            "200000378",
+            "333222111",
+            "100000028"
+          ]
+        }
+      }
+    }
+  ]
+}

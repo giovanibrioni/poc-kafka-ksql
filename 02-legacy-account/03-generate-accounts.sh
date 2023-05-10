@@ -1,0 +1,1 @@
+docker exec ksql-datagen ksql-datagen schema=/data/datagen/accounts.avro bootstrap-server=broker:29092 schemaRegistryUrl=http://schema-registry:8081 format=avro key=CD_CLIENTE topic=legacy_accounts msgRate=1 iterations=100

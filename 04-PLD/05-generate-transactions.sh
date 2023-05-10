@@ -1,0 +1,1 @@
+docker exec ksql-datagen ksql-datagen schema=/data/datagen/suspicious-ted.avro bootstrap-server=broker:29092 schemaRegistryUrl=http://schema-registry:8081 format=avro key=recipient_document_number topic=txns msgRate=1 iterations=100
