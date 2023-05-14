@@ -62,24 +62,24 @@ estado atual da pessoa(tanto física, quanto jurídica) na tabela PERSON\_TB:
 2.  Criar o Stream baseado no tópico que receberá os eventos
 
     ``` {.highlight}
-    CREATE STREAM EV_PERSON_INDIVIDUAL (class VARCHAR, person_id VARCHAR, individual STRUCT<
-            name VARCHAR,
-            cpf VARCHAR,
-            email VARCHAR,
-            address STRUCT<address_id BIGINT,
-                            type VARCHAR,
-                            zip_code VARCHAR,
-                            street VARCHAR,
-                            number VARCHAR,
-                            complement VARCHAR,
-                            city VARCHAR,
-                            state VARCHAR,
-                            country VARCHAR>,
-            phone STRUCT<phone_id BIGINT,
-                        type VARCHAR,
-                        area_code VARCHAR,
-                        country_code VARCHAR,
-                        number VARCHAR>>)
+    CREATE STREAM EV_PERSON_INDIVIDUAL (class VARCHAR, person_id VARCHAR, 
+            individual STRUCT<name VARCHAR,
+                            cpf VARCHAR,
+                            email VARCHAR,
+                            address STRUCT<address_id BIGINT,
+                                            type VARCHAR,
+                                            zip_code VARCHAR,
+                                            street VARCHAR,
+                                            number VARCHAR,
+                                            complement VARCHAR,
+                                            city VARCHAR,
+                                            state VARCHAR,
+                                            country VARCHAR>,
+                            phone STRUCT<phone_id BIGINT,
+                                            type VARCHAR,
+                                            area_code VARCHAR,
+                                            country_code VARCHAR,
+                                            number VARCHAR>>) 
         WITH (kafka_topic='ev_person_individual', value_format='JSON');
     ```
 
@@ -87,16 +87,16 @@ estado atual da pessoa(tanto física, quanto jurídica) na tabela PERSON\_TB:
     formato que será gravado na tabela
 
     ``` {.highlight}
-    CREATE STREAM EV_PERSON_INDIVIDUAL_TRANSFORMED
-        WITH (kafka_topic='person', value_format='AVRO')
-        AS SELECT person_id, class  AS type,
-                individual->cpf     AS document_number,
-                individual->name    AS name,
-                individual->email   AS email,
-                individual->address AS address,
-                individual->phone   AS phone,
-                ROWTIME             AS last_update_date
-            FROM EV_PERSON_INDIVIDUAL
+    CREATE STREAM EV_PERSON_INDIVIDUAL_TRANSFORMED 
+        WITH (kafka_topic='person', value_format='AVRO') 
+        AS SELECT person_id, class  AS type, 
+                individual->cpf     AS document_number, 
+                individual->name    AS name, 
+                individual->email   AS email, 
+                individual->address AS address, 
+                individual->phone   AS phone, 
+                ROWTIME             AS last_update_date 
+            FROM EV_PERSON_INDIVIDUAL 
             PARTITION BY individual->cpf EMIT CHANGES;
     ```
 
@@ -119,7 +119,7 @@ estado atual da pessoa(tanto física, quanto jurídica) na tabela PERSON\_TB:
                         type VARCHAR,
                         area_code VARCHAR,
                         country_code VARCHAR,
-                        number VARCHAR>)
+                        number VARCHAR>) 
         WITH (kafka_topic='person', value_format='AVRO', KEY='document_number');
     ```
 
@@ -165,21 +165,26 @@ estado atual da pessoa(tanto física, quanto jurídica) na tabela PERSON\_TB:
     FROM PERSON_TB EMIT CHANGES;
     ```
 
-9.  Criar os eventos de legal.created e legal.updated
+9.  Criar o Topico que receberá os eventos de legal
 
     ``` {.highlight}
     sh ./01-person/02-event-person-legal/01-create-topic.sh
-    sh ./01-person/02-event-person-legal/03-legal-created.sh
-    sh ./01-person/02-event-person-legal/04-legal-updated.sh
     ```
 
-10. Criar o stream para transformar o evento na estrutura da tabela
+10. Criar os STREAMS de legal
 
     ``` {.highlight}
     docker exec ksqldb-cli bash -c "cat /data/01-person/02-event-person-legal/02-legal-created-stream-table.sql <(echo 'EXIT')| ksql http://ksqldb-server:8088"
     ```
 
-11. Verificar que os eventos de legal foram transformados para a mesma
+11.  Criar os eventos de legal.created e legal.updated
+
+    ``` {.highlight}
+    sh ./01-person/02-event-person-legal/03-legal-created.sh
+    sh ./01-person/02-event-person-legal/04-legal-updated.sh
+    ```
+
+12. Verificar que os eventos de legal foram transformados para a mesma
     estrutuda na tabela e também só mostram o estado mais atual
 
     ``` {.highlight}
@@ -215,9 +220,7 @@ na tabela BANK\_ACCOUNTS\_TB:
     docker exec ksqldb-cli bash -c "cat /data/02-legacy-account/02-account-stream-table.sql <(echo 'EXIT')| ksql http://ksqldb-server:8088"
     ```
 
-3.  Criar o Conector que irá receber os dados do Legado. Substuir os
-    campos \<IP\_ORACLE\_LEGACY\>, \<SERVICE\_NAME\_LEGACY\>,
-    \<USUARIO\_LEGACY\> e \<SENHA\_LEGACY\> no arquivo ./02-legacy-account/03-connect-legacy-account.sh
+3.  Criar o Conector que irá receber os dados do Legado. 
 
     ``` {.highlight}
     sh ./02-legacy-account/03-connect-legacy-account.sh
@@ -282,22 +285,13 @@ na tabela BANK\_ACCOUNTS\_TB:
     docker exec ksqldb-cli bash -c "cat /data/03-loan/02-contracts-stream-table.sql <(echo 'EXIT')| ksql http://ksqldb-server:8088"
     ```
 
-3.  Criar o Conector que irá receber os dados dos contratos de empréstimo do Legado.
-    Substuir os campos \<IP\_ORACLE\_LEGACY\>,
-    \<SERVICE\_NAME\_LEGACY\>, \<USUARIO\_LEGACY\> e \<SENHA\_LEGACY\> no arquivo ./03-loan/04-connect-loan-contracts.sh
-
-    ``` {.highlight}
-    sh ./03-loan/04-connect-loan-contracts.sh
-    ```
-
-4.  Se não tiver os dados de conexão do Banco Legado, pode usar o gerador de
-    dados de contrato abaixo para fazer a simulação.
+3.  Simular eventos de criação de contratos.
 
     ``` {.highlight}
     sh ./03-loan/04-generate-contracts.sh
     ```
 
-5.  Verificar os contratos criados
+4.  Verificar os contratos criados
 
     ``` {.highlight}
     SELECT  document_number,
@@ -309,38 +303,27 @@ na tabela BANK\_ACCOUNTS\_TB:
     FROM LOAN_CONTRACTS_TB EMIT CHANGES;
     ```
 
-6.  Criar o stream de parcelas e a tabela LOAN\_FLOWS\_TB com a
+5.  Criar o stream de parcelas e a tabela LOAN\_FLOWS\_TB com a
     informação mais atual da parcela.
 
     ``` {.highlight}
     docker exec ksqldb-cli bash -c "cat /data/03-loan/05-flows-stream-table.sql <(echo 'EXIT')| ksql http://ksqldb-server:8088"
     ```
 
-7.  Criar o stream de parcelas atrasadas e parcelas enriquecidas por
+6.  Criar o stream de parcelas atrasadas e parcelas enriquecidas por
     contrato, conta e pessoa.
 
     ``` {.highlight}
     docker exec ksqldb-cli bash -c "cat /data/03-loan/06-flows-collection.sql <(echo 'EXIT')| ksql http://ksqldb-server:8088"
     ```
 
-8.  Criar o Conector que irá receber os dados das parcelas de
-    emprestimos do Banco Legado. 
-    
-    Substuir os campos \<IP\_ORACLE\_LEGACY\>,
-    \<SERVICE\_NAME\_LEGACY\>, \<USUARIO\_LEGACY\> e \<SENHA\_LEGACY\> no arquivo ./03-loan/07-connect-loan-flows.sh
-
-    ``` {.highlight}
-    sh ./03-loan/07-connect-loan-flows.sh
-    ```
-
-9.  Se não tiver os dados de conexão do Banco Legado, pode usar o gerador de
-    dados de PARCELAS abaixo para fazer a simulação.
+7.  Simular eventos de alteração em PARCELAS.
 
     ``` {.highlight}
     sh ./03-loan/07-generate-flows.sh
     ```
 
-10. Abrir uma janela para verificar o stream de parcelas
+8. Abrir uma janela para verificar o stream de parcelas
 
     ``` {.highlight}
     SELECT contract_id,
@@ -351,7 +334,7 @@ na tabela BANK\_ACCOUNTS\_TB:
     EMIT CHANGES;
     ```
 
-11. Abrir outra janela onde só irão aparecer as parcelas atrasadas
+9. Abrir outra janela onde só irão aparecer as parcelas atrasadas
 
     ``` {.highlight}
     SELECT contract_id,
@@ -362,7 +345,7 @@ na tabela BANK\_ACCOUNTS\_TB:
     EMIT CHANGES;
     ```
 
-12. Esta consulta mostra as parcelas atrasadas, enriquecida com dados do
+10. Esta consulta mostra as parcelas atrasadas, enriquecida com dados do
     devedor, do contrato e da conta
 
     ``` {.highlight}
@@ -377,7 +360,7 @@ na tabela BANK\_ACCOUNTS\_TB:
     EMIT CHANGES;
     ```
 
-13. O Sistema de Risco, aplicou uma regra de agrupamento por vencimento
+11. O Sistema de Risco, aplicou uma regra de agrupamento por vencimento
     e status da parcela, para calcular o valor de risco somente com base
     no somatório dos valores das parcelas
 
@@ -490,3 +473,5 @@ Neo4j, para facilitar a identificação da rede de lavagem de dinheiro.
         ``` {.highlight}
         MATCH p=()-[r:SEND_MONEY_TO]->() RETURN p
         ```
+
+<!-- ![demo04](images/demo04.png) -->

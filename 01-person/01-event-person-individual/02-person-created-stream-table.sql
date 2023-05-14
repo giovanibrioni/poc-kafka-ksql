@@ -1,6 +1,6 @@
 SET 'auto.offset.reset' = 'earliest';
 
-CREATE STREAM EC_PERSON_INDIVIDUAL (class VARCHAR, person_id VARCHAR, individual STRUCT<
+CREATE STREAM EV_PERSON_INDIVIDUAL (class VARCHAR, person_id VARCHAR, individual STRUCT<
         name VARCHAR,
         cpf VARCHAR,
         email VARCHAR,
@@ -50,3 +50,4 @@ CREATE TABLE PERSON_TB (document_number VARCHAR, person_id VARCHAR, type VARCHAR
                     country_code VARCHAR,
                     number VARCHAR>) 
     WITH (kafka_topic='person', value_format='AVRO', KEY='document_number');
+

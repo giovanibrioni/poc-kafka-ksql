@@ -4,6 +4,18 @@
   "type": "record",
   "fields": [
     {
+      "name": "ID",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "iteration": {
+            "start": 1,
+            "step": 5
+          }
+        }
+      }
+    },
+    {
       "name": "CD_AGENCIA",
       "type": {
         "type": "string",
@@ -54,44 +66,18 @@
       }
     },
     {
-      "name": "TP_CONTA",
-      "type": {
-        "type": "string",
-        "arg.properties": {
-          "options": [
-            "CONTA COMUM PESSOA F",
-            "CONTA GAR PESSOA JUR",
-            "CHEQUE ESPECIAL PESS"
-          ]
-        }
-      }
-    },
-    {
       "name": "DS_STATUS",
       "type": {
         "type": "string",
         "arg.properties": {
           "options": [
-            "LIBERADA"
+            "ACTIVE"
           ]
         }
       }
     },
     {
       "name": "DT_ABERTURA",
-      "type": {
-        "type": "long",
-        "format_as_time": "unix_long",
-        "arg.properties": {
-          "iteration": {
-            "start": 1,
-            "step": 10
-          }
-        }
-      }
-    },
-        {
-      "name": "DT_ENCERRAMENTO",
       "type": {
         "type": "long",
         "format_as_time": "unix_long",
