@@ -30,7 +30,7 @@ Foi utilizada a versão (5.5.1) da stack da CONFLUENT PLATFORM.
 1.  Iniciando o ambiente
 
     ``` {.highlight}
-    git clone XXXXXX
+    git clone https://github.com/giovanibrioni/poc-kafka-ksql.git
     cd poc-kafka-ksql
     docker-compose up -d
     ```
